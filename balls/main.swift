@@ -17,17 +17,28 @@ let numberOfSets = Int(input!.components(separatedBy: " ")[1])!
 var commands = [[Int]]()
 for i in 1...numberOfOperations {
     var command = readLine()
-    let firstBall = Int(command!.components(separatedBy: " ")[0])! - 1
-    let secondBall = Int(command!.components(separatedBy: " ")[1])! - 1
+    let firstBall = Int(command!.components(separatedBy: " ")[0])!
+    let secondBall = Int(command!.components(separatedBy: " ")[1])!
     commands += [[firstBall,secondBall]]
 }
 
+var temp = [String]()
 for setIndex in 1...numberOfSets{
     for command in commands {
-        let temp = balls[command[0]]
-        balls[command[0]] = balls[command[1]]
-        balls[command[1]] = temp
+        let temp = balls[command[0]-1]
+        balls[command[0]-1] = balls[command[1]-1]
+        balls[command[1]-1] = temp
     }
+    
+    if temp.contains(balls.joined(separator: " ")) {
+        balls = temp[(numberOfSets % temp.count) - 1].components(separatedBy: " ")
+        break
+    }else{
+        temp += [balls.joined(separator: " ")]
+    }
+    
 }
+
+
 
 print(balls.joined(separator: " "))
